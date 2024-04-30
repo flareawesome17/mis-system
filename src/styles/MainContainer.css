@@ -1,0 +1,215 @@
+/* Main container styles */
+.main-container {
+  display: flex;
+  height: 100%; /* Occupy full height of the viewport */
+}
+
+
+/* Main content area styles */
+.main-content {
+  flex-grow: 1;
+  padding: 20px;
+  display: flex;
+  flex-direction: column; /* Allows vertical arrangement of elements */
+}
+
+/* Content area styles */
+.content {
+  padding: 20px;
+  border: 1px solid #ddd;
+  background-color: #f9f9f9;
+  font-size: 25px;
+  font-family: 'Gill Sans', 'Gill Sans MT', 'Calibri', 'Trebuchet MS', sans-serif;
+  text-align: center; /* Center the text */
+  margin-bottom: 20px; /* Add space below the content */
+  /* Adjust width to accommodate SideNav and padding */
+  margin-left: 205px; /* Adjust margin to avoid SideNav overlap */
+  margin-top: 50px;
+ 
+  
+}
+
+/* Content header title styles */
+.content-header-title {
+  font-size: 25px;
+  font-weight: bold;
+  margin-bottom: 20px; /* Add space below the header */
+}
+
+/* Table container styles */
+.table-container {
+  overflow-x: auto; /* Enable horizontal scrolling if needed */
+}
+
+/* Table styles */
+.table-container table {
+  border-collapse: collapse;
+  width: 100%;
+}
+
+/* Table header styles */
+.table-container th {
+  background-color: #caced2;
+  color: rgb(0, 0, 0);
+  padding: 5px;
+  text-align: center;
+  border: rgb(0, 0, 0) solid 1px;
+  font-size: 15px;
+}
+
+/* Table row styles */
+.table-container tr:nth-child(even) {
+  background-color: #f2f2f2;
+}
+
+/* Table cell styles */
+.table-container td {
+  border: 1px solid #000000;
+  padding: 5px;
+  font-size: 15px;
+}
+
+/* Search bar container styles */
+.search-bar-container {
+  display: flex;
+  justify-content: center;
+  margin-bottom: 20px;
+}
+
+/* Search bar input styles */
+.search-bar {
+  padding: 8px;
+  width: 300px;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+  outline: none;
+  margin-right: 10px;
+}
+
+/* Search button styles */
+.search-button {
+  padding: 8px 12px;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+  background-color: #007bff;
+  color: white;
+  cursor: pointer;
+  outline: none;
+}
+.search-button:hover {
+  background-color: #0069d9;
+}
+
+/* Add button styles */
+.add-button {
+  padding: 8px 12px;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+  background-color: #28a745;
+  color: white;
+  cursor: pointer;
+  outline: none;
+}
+.print-button {
+  padding: 8px 12px;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+  background-color: #f96a23;
+  color: white;
+  cursor: pointer;
+  outline: none;
+}
+.add-button:hover {
+  background-color: #218838;
+}
+.print-button:hover {
+  background-color: #e04f07;
+}
+/* Action button styles */
+.action-button-view {
+  padding: 5px 12px;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+  background-color: #fde498; /* Yellow color for view button */
+  color: black;
+  cursor: pointer;
+  outline: none;
+  margin-right: 5px; /* Add space between buttons */
+}
+.action-button-edit {
+  padding: 5px 12px;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+  background-color: #48f942; /* Green color for view button */
+  color: black;
+  cursor: pointer;
+  outline: none;
+  margin-right: 5px; /* Add space between buttons */
+}
+.action-button-accept {
+  padding: 5px 12px;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+  background-color: #48f942; /* Green color for view button */
+  color: black;
+  cursor: pointer;
+  outline: none;
+  margin-right: 5px; /* Add space between buttons */
+}
+.action-button-delete {
+  padding: 5px 12px;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+  background-color: #fc0000; /* Red color for Delete button */
+  color: black;
+  cursor: pointer;
+  outline: none;
+  margin-right: 5px; /* Add space between buttons */
+}
+.action-button-deny {
+  padding: 5px 12px;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+  background-color: #fc0000; /* Red color for Delete button */
+  color: black;
+  cursor: pointer;
+  outline: none;
+  margin-right: 5px; /* Add space between buttons */
+}
+.action-button-view:hover {
+  background-color: #ffc003; /* Yellow color for view button */
+  color: black;
+}
+.action-button-edit:hover {
+  background-color: #17be0e; /* Green color for Edit button */
+  color: black;
+}
+.action-button-delete:hover {
+  background-color: #b52020; /* Red color for Delete button */
+  color: black;
+}
+.action-button-accept:hover {
+  background-color: #17be0e; /* Green color for Edit button */
+  color: black;
+}
+.action-button-deny:hover {
+  background-color: #b52020; /* Red color for Delete button */
+  color: black;
+}
+
+
+/* Status button styles */
+.action-button-status {
+  padding: 5px 12px;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+  background-color: #ffc107; /* Yellow color for status button */
+  color: black;
+  cursor: pointer;
+  outline: none;
+  margin-right: 5px; /* Add space between buttons */
+}
+.action-button-status:hover {
+  background-color: #8f6c04; /* Yellow color for view button */
+  color: black;
+}

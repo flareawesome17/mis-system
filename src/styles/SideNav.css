@@ -1,0 +1,48 @@
+/* Side Navigation Styling */
+.side-nav {
+  width: 200px;
+  position: fixed;
+  left: 0;
+  top: 0;
+  background-color: #242323;
+  height: 100vh;
+  padding: 10px;
+  box-shadow: 2px 0 5px rgba(0, 0, 0, 0.1);
+}
+
+.side-nav ul {
+  list-style-type: none;
+  padding: 0;
+  margin: 0;
+}
+
+.side-nav ul li {
+  margin-bottom: 10px;
+  border-bottom: #4CAF50 solid 1px;
+
+}
+
+.side-nav ul li a {
+  display: block;
+  padding: 10px;
+  text-decoration: none;
+  color: #ffffff;
+  font-weight: bold;
+  transition: background-color 1s;
+}
+
+.side-nav ul li a:hover {
+  background-color: #696969;
+}
+
+.side-nav ul li a.active {
+  background-color: #4CAF50;
+  color: white;
+}
+.footer {
+  position: absolute;
+  color: #696969;
+  font-style: italic;
+  margin-top: 50px;
+  
+}

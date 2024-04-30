@@ -1,0 +1,49 @@
+/* Styles for the header */
+header {
+  background-color: #4CAF50; /* Green background color */
+  color: white; /* White text color */
+  padding: 10px; /* Padding around the text */
+  width: 100%; /* Full width */
+  position: fixed; /* Fixed position */
+  top: 0;
+  left: 0;
+  right: 0;
+  display: flex;
+  justify-content: center;
+  align-items: center; /* Center-align all content vertically */
+}
+
+/* Style for the muted text */
+header .muted-text {
+  color: gray; /* Muted gray color */
+}
+
+/* Styles for the h1 element */
+header h1 {
+  margin: 0; /* Remove default margin */
+}
+
+/* Style for the username span */
+header .username {
+  position: absolute;
+  right: 100px; /* Adjust this value as needed */
+  font-size: 16px; /* Adjust the font size as needed */
+  margin-right: 20px; /* Margin between the username and the button */
+}
+
+/* Style for the logout button */
+header button {
+  background-color: #63f85e; /* Green color for the button */
+  color: white; /* White text color */
+  padding: 10px;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+  position: absolute; /* Absolute positioning */
+  top: 10px; /* Aligns the button vertically */
+  right: 50px; /* Aligns the button to the right */
+}
+
+header button:hover {
+  background-color: #45cb36; /* Darker green on hover */
+}
