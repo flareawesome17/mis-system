@@ -59,6 +59,7 @@ function App() {
         <Header user={user} onLogout={handleLogout} />
         <Routes>
           <Route path="/signin" element={user ? <Navigate to="/" /> : <SignInPage />} />
+          <Route path="/" element={<MainContainer />} />
           <Route path="/" element={user ? (
             <div className="layout">
               <SideNav onOptionClick={() => {}} />

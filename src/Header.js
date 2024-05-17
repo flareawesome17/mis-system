@@ -27,15 +27,6 @@ const Header = ({ user, onLogout }) => {
     fetchUserData();
   }, [user]);
 
-  const handleLogin = () => {
-    const provider = new firebase.auth.GoogleAuthProvider();
-    firebase.auth().signInWithPopup(provider).then(result => {
-      console.log('User signed in:', result.user);
-    }).catch(error => {
-      console.error('Login error:', error);
-    });
-  };
-
   const handleLogoutClick = () => {
     setShowConfirmation(true);
   };
@@ -62,7 +53,7 @@ const Header = ({ user, onLogout }) => {
           <button className="logout-button" onClick={handleLogoutClick}>Logout</button>
         </div>
       ) : (
-        <button className="login-button" onClick={handleLogin}>Login with Google</button>
+        <div className="no-user"></div> // No login button displayed
       )}
 
       {showConfirmation && (

@@ -9,7 +9,8 @@ import MJREditForm from './MJR-edit-form';
 import './styles/Settings.css';
 
 
-const MainContainer = () => {
+const MainContainer = ({ user, onLogout }) => {
+    
     const [selectedOption, setSelectedOption] = useState('Dashboard');
     const [showAddForm, setShowAddForm] = useState(false);
     const [showEditForm, setShowEditForm] = useState(false);
