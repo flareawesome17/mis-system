@@ -11,6 +11,7 @@ const MJRAddForm = ({ showForm, onClose, onSubmit }) => {
         location: '',
         description: '',
         date: '',
+        
         status: 'Pending', // Default value of status
     });
 
@@ -39,7 +40,8 @@ const MJRAddForm = ({ showForm, onClose, onSubmit }) => {
     // Handle form submission
     const handleSubmit = (e) => {
         e.preventDefault();
-        onSubmit(formData);
+        const updatedFormData = { ...formData, accepted: false }; // Set accepted status to false
+        onSubmit(updatedFormData);
         // Increment mjrNo for the next form
         setFormData((prevFormData) => ({
             ...prevFormData,
@@ -50,6 +52,7 @@ const MJRAddForm = ({ showForm, onClose, onSubmit }) => {
         // Close the form after submission
         onClose();
     };
+    
 
     return (
         <div className={`modal ${showForm ? 'show' : ''}`}>
@@ -132,6 +135,15 @@ const MJRAddForm = ({ showForm, onClose, onSubmit }) => {
                             value={formData.date}
                             onChange={handleChange}
                             required
+                        />
+                    </div>
+                    <div className="form-group">
+                        <label>Accepted</label>
+                        <input
+                            type="hidden"
+                            name="accepted"
+                            value={formData.accepted}
+                        
                         />
                     </div>
                     <div className="button-group">

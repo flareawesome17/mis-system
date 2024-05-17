@@ -3,11 +3,14 @@
   width: 200px;
   position: fixed;
   left: 0;
-  top: 0;
+  top: 60px;
   background-color: #242323;
-  height: 100vh;
+  height: calc(100vh - 60px); /* Adjust height to fit remaining viewport */
   padding: 10px;
   box-shadow: 2px 0 5px rgba(0, 0, 0, 0.1);
+  display: flex;
+  flex-direction: column; /* Align items in a column */
+  justify-content: space-between; /* Space evenly between items */
 }
 
 .side-nav ul {
@@ -19,7 +22,6 @@
 .side-nav ul li {
   margin-bottom: 10px;
   border-bottom: #4CAF50 solid 1px;
-
 }
 
 .side-nav ul li a {
@@ -27,22 +29,38 @@
   padding: 10px;
   text-decoration: none;
   color: #ffffff;
-  font-weight: bold;
+  font-weight: normal;
   transition: background-color 1s;
 }
 
 .side-nav ul li a:hover {
   background-color: #696969;
+  border-radius: 30px;
 }
 
 .side-nav ul li a.active {
   background-color: #4CAF50;
   color: white;
+  border-radius: 30px;
 }
+
 .footer {
-  position: absolute;
   color: #696969;
   font-style: italic;
-  margin-top: 50px;
-  
+}
+
+.footer button {
+  width: 100%;
+  padding: 10px;
+  background-color: #007bff;
+  color: white;
+  border: none;
+  border-radius: 5px;
+  font-size: 16px;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+}
+
+.footer button:hover {
+  background-color: #0056b3;
 }

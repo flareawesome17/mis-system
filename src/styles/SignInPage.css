@@ -1,0 +1,52 @@
+/* Styles for the SignInPage component */
+
+.signin-page {
+    background: linear-gradient(135deg, #c8f0b6, #9b59b6);
+    height: 100vh;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+  }
+  
+  .signin-card {
+    background: white;
+    padding: 40px;
+    border-radius: 10px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    text-align: center;
+    max-width: 400px;
+    width: 100%;
+  }
+  
+  .signin-card h2 {
+    margin-bottom: 20px;
+    color: #333;
+  }
+  
+  .signin-card p {
+    margin-bottom: 30px;
+    color: #777;
+  }
+  
+  .google-signin-button {
+    background: #4285f4;
+    color: white;
+    padding: 10px 20px;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+   
+    align-items: center;
+    justify-content: center; /* Center horizontally */
+    transition: background 0.3s;
+  }
+  
+  .google-signin-button img {
+    width: 20px;
+    margin-right: 10px;
+  }
+  
+  .google-signin-button:hover {
+    background: #357ae8;
+  }
+  

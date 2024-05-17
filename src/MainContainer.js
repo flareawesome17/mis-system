@@ -1,14 +1,45 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import SideNav from './SideNav';
+import firebase from 'firebase/compat/app';
+import 'firebase/compat/auth';
+import 'firebase/compat/firestore'; // Import Firestore
 import './styles/MainContainer.css';
 import MJRAddForm from './MJR-add-form';
 import MJREditForm from './MJR-edit-form';
+import './styles/Settings.css';
+
 
 const MainContainer = () => {
     const [selectedOption, setSelectedOption] = useState('Dashboard');
     const [showAddForm, setShowAddForm] = useState(false);
     const [showEditForm, setShowEditForm] = useState(false);
     const [tableData, setTableData] = useState([]);
+    const [acceptedData, setAcceptedData] = useState([]);
+    const [department, setDepartment] = useState('');
+    const [position, setPosition] = useState('');
+    const [address, setAddress] = useState('');
+    const [notification, setNotification] = useState('');
+
+    useEffect(() => {
+        // Fetch user settings from Firestore on component mount
+        const fetchUserSettings = async () => {
+            try {
+                const user = firebase.auth().currentUser;
+                const userDocRef = firebase.firestore().collection('users').doc(user.uid);
+                const doc = await userDocRef.get();
+                if (doc.exists) {
+                    const userData = doc.data();
+                    setDepartment(userData.department || ''); // Set department from Firestore or default value
+                    setPosition(userData.position || ''); // Set position from Firestore or default value
+                    setAddress(userData.address || ''); // Set address from Firestore or default value
+                }
+            } catch (error) {
+                console.error('Error fetching user settings:', error);
+            }
+        };
+
+        fetchUserSettings();
+    }, []); // Run only once on component mount
 
     const handleOptionClick = (option) => {
         setSelectedOption(option);
@@ -16,12 +47,39 @@ const MainContainer = () => {
         setShowEditForm(false);
     };
 
+    const handleSubmit = async (e) => {
+        e.preventDefault();
+        const user = firebase.auth().currentUser;
+
+        try {
+            const userDocRef = firebase.firestore().collection('users').doc(user.uid);
+            await userDocRef.set({
+                department,
+                position,
+                address
+            }, { merge: true }); // Merge with existing data in Firestore
+            setNotification('User profile updated successfully');
+            setTimeout(() => {
+                setNotification('');
+            }, 3000);
+            alert("Successfully saved");
+        } catch (error) {
+            setNotification('Error updating user profile');
+            setTimeout(() => {
+                setNotification('');
+            }, 3000);
+            console.error('Error updating user profile:', error);
+            alert("Error");
+        }
+    
+    };
+
     const handleAddButtonClick = () => {
         setShowAddForm(true);
     };
 
-    const handleEditButtonClick = (index) => () => {
-        // Handle edit button click logic
+    const handleEditButtonClick = (index) => {
+        setShowEditForm(true);
     };
 
     const handleCloseModal = () => {
@@ -29,113 +87,117 @@ const MainContainer = () => {
         setShowEditForm(false);
     };
 
-    // Function to add form data to table
     const addFormDataToTable = (formData) => {
         setTableData([...tableData, formData]);
+    };
+
+    const handleAcceptButtonClick = (index) => {
+        const updatedTableData = [...tableData];
+        updatedTableData[index].accepted = true;
+        setTableData(updatedTableData);
+
+        const acceptedFormData = updatedTableData[index];
+        setAcceptedData([...acceptedData, acceptedFormData]);
     };
 
     const renderContent = () => {
         switch (selectedOption) {
             case 'Dashboard':
-                return (
-                    <div className="content">
-                        <div className="content-header-title">Dashboard</div>
-                        <div className="table-container">
+            return (
+                <div className="content">
+                    <div className="content-header-title">Dashboard</div>
+                    <div className="table-container">
                         <MJRAddForm showForm={showAddForm} onClose={handleCloseModal} onSubmit={addFormDataToTable} />
-                            <table>
-                                <thead>
-                                    <tr>
-                                        
-                                        <th>MJR No.</th>
-                                        <th>Requested by</th>
-                                        <th>Noted by</th>
-                                        <th>Department</th>
-                                        <th>Location</th>  
-                                        <th>Description</th> 
-                                        <th>Date</th>                                     
-                                        <th>Action</th>
-                                    </tr>
-                                </thead>
-                                <tbody>
-                                    {/* Table rows will go here */}
-                                    {tableData.map((data, index) => (
-                                        <tr key={index}>
-                                            <td>{data.mjrNo}</td>
-                                            <td>{data.requestedBy}</td>
-                                            <td>{data.notedBy}</td>
-                                            <td>{data.department}</td>
-                                            <td>{data.location}</td>
-                                            <td>{data.description}</td>
-                                            <td>{data.date}</td>
-                                            
+                        <table>
+                            <thead>
+                                <tr>
+                                    <th>MJR No.</th>
+                                    <th>Requested by</th>
+                                    <th>Noted by</th>
+                                    <th>Department</th>
+                                    <th>Location</th>
+                                    <th>Description</th>
+                                    <th>Date</th>
+                                    <th>Accepted</th>
+                                    <th>Action</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                {tableData.filter(data => data.accepted === false || data.accepted === null).map((data, index) => (
+                                    <tr key={index}>
+                                        <td>{data.mjrNo}</td>
+                                        <td>{data.requestedBy}</td>
+                                        <td>{data.notedBy}</td>
+                                        <td>{data.department}</td>
+                                        <td>{data.location}</td>
+                                        <td>{data.description}</td>
+                                        <td>{data.date}</td>
+                                        <td>{data.accepted ? 'True' : 'False'}</td>
                                         <td>
-                                            <button className="action-button-accept">Accept</button>
+                                            <button className="action-button-accept" onClick={() => handleAcceptButtonClick(index)}>Accept</button>
                                             <button className="action-button-deny">Deny</button>
                                         </td>
                                     </tr>
-                                    ))}
-                                </tbody>
-                            </table>
-                        </div>
+                                ))}
+                            </tbody>
+                        </table>
                     </div>
-                );
-            case 'MIS Form 1':
-                    return (
-                        <div className="content">
-                            <div className="content-header-title">MIS Job Request</div>
-                            <div className="search-bar-container">
-                                <input
-                                    type="text"
-                                    className="search-bar"
-                                    placeholder="Search..."
-                                />
-                                <button className="search-button">Search</button>
-                                <button className="add-button" onClick={handleAddButtonClick}>Add</button>
-                                <MJRAddForm showForm={showAddForm} onClose={handleCloseModal} onSubmit={addFormDataToTable} />
-                                <button className="print-button">Print</button>
-                                
-                            </div>
-                            <div className="table-container">
-                                
-                                <table>
-                                    <thead>
-                                        <tr>
-                                            
-                                            <th>MJR No.</th>
-                                            <th>Requested by</th>
-                                            <th>Noted by</th>
-                                            <th>Department</th>
-                                            <th>Location</th>  
-                                            <th>Description</th> 
-                                            <th>Date</th>                                     
-                                            <th>Status</th>
-                                            <th>Action</th>
-                                        </tr>
-                                    </thead>
-                                    <tbody>
-                                        {/* Table rows will go here */}
-                                        {tableData.map((data, index) => (
-                                        <tr key={index}>
-                                            <td>{data.mjrNo}</td>
-                                            <td>{data.requestedBy}</td>
-                                            <td>{data.notedBy}</td>
-                                            <td>{data.department}</td>
-                                            <td>{data.location}</td>
-                                            <td>{data.description}</td>
-                                            <td>{data.date}</td>
-                                            <td>{data.status}</td>
-                                            <td>
-                                                <button className="action-button-edit" onClick={handleEditButtonClick(index)}>Edit</button>
-                                                
-                                                <button className="action-button-delete">Delete</button>
-                                            </td>
-                                        </tr>
-                                        ))}
-                                    </tbody>
-                                </table>
-                            </div>
-                        </div>
-                    );
+                </div>
+            );
+        case 'MIS Form 1':
+            return (
+                <div className="content">
+                    <div className="content-header-title">MIS Job Request</div>
+                    <div className="search-bar-container">
+                        <input
+                            type="text"
+                            className="search-bar"
+                            placeholder="Search..."
+                        />
+                        <button className="search-button">Search</button>
+                        <button className="add-button" onClick={handleAddButtonClick}>Add</button>
+                        <MJRAddForm showForm={showAddForm} onClose={handleCloseModal} onSubmit={addFormDataToTable} />
+                        <button className="print-button">Print</button>
+                    </div>
+                    <div className="table-container">
+                        <table>
+                            <thead>
+                                <tr>
+                                    <th>MJR No.</th>
+                                    <th>Requested by</th>
+                                    <th>Noted by</th>
+                                    <th>Department</th>
+                                    <th>Location</th>
+                                    <th>Description</th>
+                                    <th>Date</th>
+                                    <th>Status</th>
+                                    <th>Accepted</th>
+                                    <th>Action</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                {acceptedData.map((data, index) => (
+                                    <tr key={index}>
+                                        <td>{data.mjrNo}</td>
+                                        <td>{data.requestedBy}</td>
+                                        <td>{data.notedBy}</td>
+                                        <td>{data.department}</td>
+                                        <td>{data.location}</td>
+                                        <td>{data.description}</td>
+                                        <td>{data.date}</td>
+                                        <td>{data.status}</td>
+                                        <td>{data.accepted}</td>
+                                        <td>
+                                            <button className="action-button-edit" onClick={handleEditButtonClick(index)}>Edit</button>
+                                            <button className="action-button-delete">Delete</button>
+                                        </td>
+                                    </tr>
+                                ))}
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            );
                 
             case 'MIS Form 2':
                 return (
@@ -499,6 +561,28 @@ const MainContainer = () => {
                         </div>
                     </div>
                 );
+            case 'Settings':
+                return (
+                    <div className="settings-content">
+                        <h2>Settings</h2>
+                        <form onSubmit={handleSubmit}>
+                            <div className="form-group">
+                                <label htmlFor="department">Department:</label>
+                                <input type="text" id="department" value={department} onChange={(e) => setDepartment(e.target.value)} />
+                            </div>
+                            <div className="form-group">
+                                <label htmlFor="position">Position:</label>
+                                <input type="text" id="position" value={position} onChange={(e) => setPosition(e.target.value)} />
+                            </div>
+                            <div className="form-group">
+                                <label htmlFor="address">Address:</label>
+                                <input type="text" id="address" value={address} onChange={(e) => setAddress(e.target.value)} />
+                            </div>
+                            <button type="submit">Save</button>
+                        </form>
+                    </div>
+                );
+                
             default:
                 return (
                     <div className="content">

@@ -1,0 +1,49 @@
+.settings-container {
+    display: flex;
+    height: 100%;
+}
+
+.settings-content {
+    flex-grow: 1;
+    padding: 20px;
+    padding: 20px;
+    border: 1px solid #ddd;
+    background-color: #f9f9f9;
+    font-size: 25px;
+    font-family: 'Gill Sans', 'Gill Sans MT', 'Calibri', 'Trebuchet MS', sans-serif;
+    text-align: center; /* Center the text */
+    margin-bottom: 20px; /* Add space below the content */
+    /* Adjust width to accommodate SideNav and padding */
+    margin-left: 205px; /* Adjust margin to avoid SideNav overlap */
+    margin-top: 50px;
+}
+
+.form-group {
+    margin-bottom: 20px;
+}
+
+label {
+    display: block;
+    margin-bottom: 5px;
+}
+
+input {
+    width: 100%;
+    padding: 8px;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    box-sizing: border-box;
+}
+
+button {
+    background-color: #007bff;
+    color: #fff;
+    border: none;
+    padding: 10px 20px;
+    border-radius: 4px;
+    cursor: pointer;
+}
+
+button:hover {
+    background-color: #0056b3;
+}
