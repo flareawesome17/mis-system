@@ -41,11 +41,13 @@ const Header = ({ user, onLogout }) => {
 
   return (
     <header className="header no-print">
-      <h1>MIS SYSTEM <span className="muted-text">Peter Paul Corp.</span></h1>
+      <div className="header-title">
+        <h1>MIS SYSTEM <span className="muted-text">Peter Paul Corp.</span></h1>
+      </div>
       {user && userInfo && (
         <div className="header-content">
           <img src={user.photoURL} alt="Profile" className="profile-pic" />
-          <div>
+          <div className="user-details">
             <span className="username">{user.displayName}</span>
             <span className="user-info">({userInfo.position || ''})</span>
             <span className="user-info">{userInfo.department || ''}</span>

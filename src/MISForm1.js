@@ -127,7 +127,7 @@ const MISForm1 = ({ user, handleLogoutClick }) => {
     };
 
     const filterDataByDateRangeAndStatus = () => {
-        let filtered = acceptedData;
+        let filtered = acceptedData.filter(data => data.accepted === true); // Add filter for accepted == true
 
         if (startDate && endDate) {
             filtered = filtered.filter(data => {
