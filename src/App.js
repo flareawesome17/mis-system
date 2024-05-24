@@ -4,10 +4,12 @@ import Header from './Header';
 import SideNav from './SideNav';
 import MainContainer from './MainContainer';
 import SignInPage from './SignInPage';
+import Dashboard from './Dashboard';
+import MISForm1 from './MISForm1';
+import Settings from './Settings';
 
 import './styles/App.css'; // Import CSS for styling
 import './styles/SignInPage.css';
-
 
 import firebase from 'firebase/compat/app'; 
 import 'firebase/compat/auth';
@@ -30,14 +32,19 @@ if (!firebase.apps.length) {
 }
 
 function App() {
-  const [user, setUser] = useState(null);
+  const [user, setUser] = useState(() => {
+    const savedUser = localStorage.getItem('user');
+    return savedUser ? JSON.parse(savedUser) : null;
+  });
 
   useEffect(() => {
     const unsubscribe = firebase.auth().onAuthStateChanged(user => {
       if (user) {
         setUser(user);
+        localStorage.setItem('user', JSON.stringify(user)); // Save user to local storage
       } else {
         setUser(null);
+        localStorage.removeItem('user'); // Remove user from local storage
       }
     });
 
@@ -48,28 +55,33 @@ function App() {
     firebase.auth().signOut().then(() => {
       console.log('Logged out');
       setUser(null);
+      localStorage.removeItem('user'); // Remove user from local storage
     }).catch(error => {
       console.error('Logout error:', error);
     });
   };
 
   return (
-    <Router>
+    <Router basename='/mis-system'>
       <div className="App">
         <Header user={user} onLogout={handleLogout} />
-        <Routes>
-          <Route path="/signin" element={user ? <Navigate to="/" /> : <SignInPage />} />
-          <Route path="/" element={<MainContainer />} />
-          <Route path="/" element={user ? (
-            <div className="layout">
-              <SideNav onOptionClick={() => {}} />
-              <MainContainer />
-            </div>
-          ) : (
-            <Navigate to="/signin" />
-          )} />
-          
-        </Routes>
+        {user && (
+          <div className="layout">
+            <SideNav user={user} onOptionClick={() => {}} />
+            <Routes>
+              <Route path="/" element={<MainContainer />} />
+              <Route path="/dashboard" element={<Dashboard user={user}/>} />
+              <Route path="/form1" element={<MISForm1 user={user} />} /> {/* Pass user here */}
+              <Route path="/settings" element={<Settings />} />
+            </Routes>
+          </div>
+        )}
+        {!user && (
+          <Routes>
+            <Route path="/signin" element={<SignInPage />} />
+            <Route path="*" element={<Navigate to="/signin" />} />
+          </Routes>
+        )}
       </div>
     </Router>
   );

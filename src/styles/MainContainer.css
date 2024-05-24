@@ -4,7 +4,6 @@
   height: 100%; /* Occupy full height of the viewport */
 }
 
-
 /* Main content area styles */
 .main-content {
   flex-grow: 1;
@@ -23,10 +22,8 @@
   text-align: center; /* Center the text */
   margin-bottom: 20px; /* Add space below the content */
   /* Adjust width to accommodate SideNav and padding */
-  margin-left: 205px; /* Adjust margin to avoid SideNav overlap */
+  margin-left: 150px; /* Adjust margin to avoid SideNav overlap */
   margin-top: 50px;
- 
-  
 }
 
 /* Content header title styles */
@@ -55,6 +52,8 @@
   text-align: center;
   border: rgb(0, 0, 0) solid 1px;
   font-size: 15px;
+  text-align: center; /* Center text horizontally */
+  vertical-align: middle; /* Center text vertically */
 }
 
 /* Table row styles */
@@ -67,13 +66,16 @@
   border: 1px solid #000000;
   padding: 5px;
   font-size: 15px;
+  text-align: center; /* Center text horizontally */
+  vertical-align: middle; /* Center text vertically */
 }
 
 /* Search bar container styles */
 .search-bar-container {
   display: flex;
-  justify-content: center;
+  justify-content: flex-start;
   margin-bottom: 20px;
+  margin-top: 10px;
 }
 
 /* Search bar input styles */
@@ -109,6 +111,7 @@
   color: white;
   cursor: pointer;
   outline: none;
+  margin-right: 10px;
 }
 .print-button {
   padding: 8px 12px;
@@ -154,7 +157,8 @@
   color: black;
   cursor: pointer;
   outline: none;
-  margin-right: 5px; /* Add space between buttons */
+  justify-content: center;
+  align-items: center;
 }
 .action-button-delete {
   padding: 5px 12px;
@@ -197,7 +201,6 @@
   color: black;
 }
 
-
 /* Status button styles */
 .action-button-status {
   padding: 5px 12px;
@@ -212,4 +215,122 @@
 .action-button-status:hover {
   background-color: #8f6c04; /* Yellow color for view button */
   color: black;
+}
+
+.user-info-container {
+  display: flex;
+  gap: 10px;
+}
+
+.user-info {
+  margin-left: 10px;
+  font-weight: bold;
+  color: black;
+}
+
+.content-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.search-bar-container {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 20px;
+}
+
+.search-actions {
+  display: flex;
+  align-items: center;
+}
+
+.date-filter-container {
+  display: flex;
+  gap: 10px;
+}
+
+.date-filter {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+}
+
+.date-filter label {
+  margin-bottom: 5px;
+}
+
+@media print {
+  .no-print {
+      display: none;
+  }
+
+  .table-container {
+      page-break-after: always;
+  }
+
+  table {
+      width: 100%;
+      border-collapse: collapse;
+  }
+
+  table, th, td {
+      border: 1px solid black;
+  }
+
+  th, td {
+      padding: 8px;
+      text-align: left;
+  }
+
+  .content {
+      width: 100%;
+      margin: 0;
+      padding: 0;
+  }
+
+  .content-header,
+  .search-bar-container,
+  .search-actions,
+  .date-filter-container,
+  .date-filter {
+      display: none;
+  }
+}
+.pagination-container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin-top: 20px;
+  font-size: 14px; /* Adjusted font size for pagination */
+}
+
+.pagination-container button {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 45px;
+  height: 30px;
+ 
+  cursor: pointer;
+  margin: 0 5px;
+}
+
+.pagination-container button{
+  background-color: #cccccc;
+  
+}
+
+.pagination-container button:hover{
+  background-color: #424040;
+  
+}
+
+.pagination-container span {
+  margin: 0 10px;
+}
+.pending-notification span{
+  color: #b52020;
+  font-size: 20px;
 }

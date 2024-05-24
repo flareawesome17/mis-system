@@ -1,84 +1,159 @@
-import React, { useState } from 'react';
-import './styles/MJR-edit-form.css';
+import React, { useState, useEffect } from 'react';
+import './styles/MJR-add-form.css';
+import firebase from 'firebase/compat/app'; 
+import 'firebase/compat/firestore';
 
-const MJREditForm = ({ showForm, onClose }) => {
-    // State to hold form data
+const MJREditForm = ({ showForm, onClose, id }) => {
     const [formData, setFormData] = useState({
-        mjrNo: '',
+        mjrNo: '', 
         requestedBy: '',
         notedBy: '',
         department: '',
         location: '',
         description: '',
         date: '',
-        status: '',
+        dateFinished: '',
+        status: 'Pending',
+        accepted: false
     });
 
-    // Handle form input change
+    const [userAddress, setUserAddress] = useState('');
+
+    useEffect(() => {
+        const fetchData = async () => {
+            try {
+                const db = firebase.firestore();
+                const docRef = db.collection('mjrForms').doc(id);
+                const doc = await docRef.get();
+
+                if (doc.exists) {
+                    const data = doc.data();
+                    setFormData(data);
+                } else {
+                    console.log('No such document!');
+                }
+            } catch (error) {
+                console.error('Error fetching document:', error);
+            }
+        };
+
+        fetchData();
+    }, [id]);
+
+    useEffect(() => {
+        const user = firebase.auth().currentUser;
+        if (user) {
+            const userDocRef = firebase.firestore().collection('users').doc(user.uid);
+            const unsubscribe = userDocRef.onSnapshot((doc) => {
+                if (doc.exists) {
+                    const userData = doc.data();
+                    setUserAddress(userData.address || '');
+                } else {
+                    console.log('No such document!');
+                }
+            }, (error) => {
+                console.error('Error fetching user address:', error);
+            });
+
+            return () => unsubscribe();
+        }
+    }, []);
+
     const handleChange = (e) => {
         const { name, value } = e.target;
         setFormData({ ...formData, [name]: value });
     };
 
-    // Handle form submission
-    const handleSubmit = (e) => {
+    const handleSubmit = async (e) => {
         e.preventDefault();
-        // Perform form submission logic here
-        console.log(formData);
-        // Close the form after submission
-        onClose();
+        
+        // Get current date in mm/dd/yyyy format
+        const now = new Date();
+        const month = (now.getMonth() + 1).toString().padStart(2, '0');
+        const day = now.getDate().toString().padStart(2, '0');
+        const year = now.getFullYear();
+        const formattedDate = `${month}/${day}/${year}`;
+
+        // Update formData with dateFinished
+        const updatedFormData = {
+            ...formData,
+            dateFinished: formattedDate
+        };
+
+        try {
+            const db = firebase.firestore();
+            await db.collection('mjrForms').doc(id).update(updatedFormData);
+            console.log('Form data updated successfully');
+            onClose();
+        } catch (error) {
+            console.error('Error updating form data:', error);
+        }
     };
 
     return (
         <div className={`modal ${showForm ? 'show' : ''}`}>
             <div className="modal-content">
                 <span className="close-button" onClick={onClose}>&times;</span>
-                <h2>Job Request Form</h2>
+                <h2>Edit Job Request</h2>
                 <form onSubmit={handleSubmit}>
-                
                     <div className="form-group">
-                        <label>Requested by:</label>
+                        <label>Location:</label>
                         <input
-                            type="text-edit-form"
-                            name="requestedBy"
-                            value={formData.requestedBy}
+                            className="add-form-text"
+                            type="text"
+                            name="location"
+                            value={formData.location}
                             onChange={handleChange}
+                            required
+                            readOnly
                         />
                     </div>
                     <div className="form-group">
-                        <label>Noted by:</label>
+                        <label>Requested by:</label>
                         <input
-                            type="text-edit-form"
+                            className="add-form-text"
+                            type="text"
+                            name="requestedBy"
+                            value={formData.requestedBy}
+                            onChange={handleChange}
+                            required
+                            readOnly
+                        />
+                    </div>
+                    <div className="form-group">
+                        <label>Noted by(Department Supervisor/Manager):</label>
+                        <input
+                            className="add-form-text"
+                            type="text"
                             name="notedBy"
                             value={formData.notedBy}
                             onChange={handleChange}
+                            required
+                            readOnly
                         />
                     </div>
                     <div className="form-group">
                         <label>Department:</label>
                         <input
-                            type="text-edit-form"
+                            className="add-form-text"
+                            type="text"
                             name="department"
                             value={formData.department}
                             onChange={handleChange}
-                        />
-                    </div>
-                    <div className="form-group">
-                        <label>Location:</label>
-                        <input
-                            type="text-edit-form"
-                            name="location"
-                            value={formData.location}
-                            onChange={handleChange}
+                            required
+                            readOnly
                         />
                     </div>
                     <div className="form-group">
                         <label>Description:</label>
                         <input
-                            type="text-edit-form"
+                            className="add-form-text"
+                            type="text"
                             name="description"
                             value={formData.description}
                             onChange={handleChange}
+                            required
+                            readOnly
                         />
                     </div>
                     <div className="form-group">
@@ -88,22 +163,22 @@ const MJREditForm = ({ showForm, onClose }) => {
                             name="date"
                             value={formData.date}
                             onChange={handleChange}
+                            required
+                            readOnly
                         />
                     </div>
                     <div className="form-group">
                         <label>Status:</label>
-                        <select
+                        <input
+                            type="text"
                             name="status"
                             value={formData.status}
                             onChange={handleChange}
-                        >
-                            <option value="">Select Status</option>
-                            <option value="Pending">Pending</option>
-                            <option value="Finished">Finished</option>
-                        </select>
+                            required
+                        />
                     </div>
                     <div className="button-group">
-                        <button type="submit">Submit</button>
+                        <button type="submit">Update</button>
                     </div>
                 </form>
             </div>

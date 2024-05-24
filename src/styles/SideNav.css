@@ -1,6 +1,5 @@
 /* Side Navigation Styling */
 .side-nav {
-  width: 200px;
   position: fixed;
   left: 0;
   top: 60px;
@@ -11,6 +10,11 @@
   display: flex;
   flex-direction: column; /* Align items in a column */
   justify-content: space-between; /* Space evenly between items */
+  transition: width 0.3s; /* Add transition for smooth collapse animation */
+}
+
+.side-nav.collapsed {
+  width: 60px; /* Set width to collapse */
 }
 
 .side-nav ul {
@@ -31,6 +35,7 @@
   color: #ffffff;
   font-weight: normal;
   transition: background-color 1s;
+  font-size: 12px;
 }
 
 .side-nav ul li a:hover {
@@ -52,15 +57,26 @@
 .footer button {
   width: 100%;
   padding: 10px;
-  background-color: #007bff;
+  background-color: #212324;
   color: white;
   border: none;
   border-radius: 5px;
   font-size: 16px;
   cursor: pointer;
   transition: background-color 0.3s ease;
+  margin-bottom: 20px;
 }
 
 .footer button:hover {
-  background-color: #0056b3;
+  background-color: #505050;
+}
+.notification-count {
+  background-color: red;
+  color: white;
+  font-size: 12px;
+  padding: 3px 6px;
+  border-radius: 50%;
+  position: absolute;
+  top: 5px;
+  right: 10px;
 }
