@@ -243,7 +243,7 @@ const MISForm1 = ({ user, handleLogoutClick }) => {
                 </div>
             </div>
             {pendingCount > 0 && (
-                <div className="pending-notification">
+                <div className="pending-notification no-print">
                     <span>You have {pendingCount} pending requests.</span>
                 </div>
             )}

@@ -7,10 +7,8 @@ import SignInPage from './SignInPage';
 import Dashboard from './Dashboard';
 import MISForm1 from './MISForm1';
 import Settings from './Settings';
-
 import './styles/App.css'; // Import CSS for styling
 import './styles/SignInPage.css';
-
 import firebase from 'firebase/compat/app'; 
 import 'firebase/compat/auth';
 import 'firebase/compat/firestore';
