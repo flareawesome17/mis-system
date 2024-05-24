@@ -60,7 +60,7 @@ function App() {
   };
 
   return (
-    <Router basename='/mis-system'>
+
       <div className="App">
         <Header user={user} onLogout={handleLogout} />
         {user && (
@@ -81,10 +81,8 @@ function App() {
           </Routes>
         )}
       </div>
-    </Router>
+  
   );
 }
 
 export default App;
-
-
