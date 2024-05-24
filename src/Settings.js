@@ -70,10 +70,16 @@ const Settings = () => {
                 </div>
                 <div className="form-group">
                     <label htmlFor="address">Address:</label>
-                    <input type="text" id="address" value={address} onChange={(e) => setAddress(e.target.value)} />
+                    <select id="address" value={address} onChange={(e) => setAddress(e.target.value)}>
+                        <option value="">Select Address</option>
+                        <option value="Plaridel">Plaridel</option>
+                        <option value="Candelaria">Candelaria</option>
+                        <option value="Sorsogon">Sorsogon</option>
+                    </select>
                 </div>
                 <button type="submit">Save</button>
             </form>
+            {notification && <div className="notification">{notification}</div>}
         </div>
     );
 };
