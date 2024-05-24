@@ -1,15 +1,15 @@
 {
   "files": {
     "main.css": "/mis-system/static/css/main.a1325377.css",
-    "main.js": "/mis-system/static/js/main.10e7393e.js",
+    "main.js": "/mis-system/static/js/main.ca33220c.js",
     "static/js/453.dd829059.chunk.js": "/mis-system/static/js/453.dd829059.chunk.js",
     "index.html": "/mis-system/index.html",
     "main.a1325377.css.map": "/mis-system/static/css/main.a1325377.css.map",
-    "main.10e7393e.js.map": "/mis-system/static/js/main.10e7393e.js.map",
+    "main.ca33220c.js.map": "/mis-system/static/js/main.ca33220c.js.map",
     "453.dd829059.chunk.js.map": "/mis-system/static/js/453.dd829059.chunk.js.map"
   },
   "entrypoints": [
     "static/css/main.a1325377.css",
-    "static/js/main.10e7393e.js"
+    "static/js/main.ca33220c.js"
   ]
 }
