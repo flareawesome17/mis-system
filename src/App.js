@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { Route, Routes, Navigate } from 'react-router-dom';
+import { Routes, Route, Navigate, HashRouter } from 'react-router-dom';
 import Header from './Header';
 import SideNav from './SideNav';
 import MainContainer from './MainContainer';
@@ -59,26 +59,28 @@ function App() {
   };
 
   return (
-    <div className="App">
-      <Header user={user} onLogout={handleLogout} />
-      {user && (
-        <div className="layout">
-          <SideNav user={user} onOptionClick={() => {}} />
+    <HashRouter>
+      <div className="App">
+        <Header user={user} onLogout={handleLogout} />
+        {user && (
+          <div className="layout">
+            <SideNav user={user} onOptionClick={() => {}} />
+            <Routes>
+              <Route path="/" element={<MainContainer />} />
+              <Route path="/dashboard" element={<Dashboard user={user}/>} />
+              <Route path="/form1" element={<MISForm1 user={user} />} />
+              <Route path="/settings" element={<Settings />} />
+            </Routes>
+          </div>
+        )}
+        {!user && (
           <Routes>
-            <Route path="/" element={<MainContainer />} />
-            <Route path="/dashboard" element={<Dashboard user={user}/>} />
-            <Route path="/form1" element={<MISForm1 user={user} />} />
-            <Route path="/settings" element={<Settings />} />
+            <Route path="/signin" element={<SignInPage />} />
+            <Route path="*" element={<Navigate to="/signin" />} />
           </Routes>
-        </div>
-      )}
-      {!user && (
-        <Routes>
-          <Route path="/signin" element={<SignInPage />} />
-          <Route path="*" element={<Navigate to="/signin" />} />
-        </Routes>
-      )}
-    </div>
+        )}
+      </div>
+    </HashRouter>
   );
 }
 
