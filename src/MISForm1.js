@@ -244,7 +244,7 @@ const MISForm1 = ({ user, handleLogoutClick }) => {
             </div>
             {pendingCount > 0 && (
                 <div className="pending-notification no-print">
-                    <span>You have {pendingCount} pending requests.</span>
+                {allowedPositions.includes(position) &&<span>You have {pendingCount} pending requests.</span>}
                 </div>
             )}
             <MJRAddForm showForm={showAddForm} onClose={() => setShowAddForm(false)} onSubmit={addFormDataToTable} />
