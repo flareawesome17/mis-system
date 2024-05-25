@@ -6,14 +6,14 @@ import MainContainer from './MainContainer';
 import SignInPage from './SignInPage';
 import Dashboard from './Dashboard';
 import MISForm1 from './MISForm1';
+import MISForm10 from './MISForm10';
 import Settings from './Settings';
-
 import './styles/App.css'; // Import CSS for styling
 import './styles/SignInPage.css';
-
 import firebase from 'firebase/compat/app'; 
 import 'firebase/compat/auth';
 import 'firebase/compat/firestore';
+
 
 // Firebase configuration
 const firebaseConfig = {
@@ -72,6 +72,7 @@ function App() {
               <Route path="/" element={<MainContainer />} />
               <Route path="/dashboard" element={<Dashboard user={user}/>} />
               <Route path="/form1" element={<MISForm1 user={user} />} /> {/* Pass user here */}
+              <Route path="/form10" element={<MISForm10 user={user} />} /> {/* Pass user here */}
               <Route path="/settings" element={<Settings />} />
             </Routes>
           </div>

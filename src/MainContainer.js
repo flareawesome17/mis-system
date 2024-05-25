@@ -7,12 +7,14 @@ import './styles/MainContainer.css';
 import './styles/Settings.css';
 import Dashboard from './Dashboard';
 import MISForm1 from './MISForm1';
+import MISForm10 from './MISForm10';
 import Settings from './Settings';
 
 const MainContainer = ({ user, onLogout }) => {
     const [selectedOption, setSelectedOption] = useState('Dashboard'); // Default to 'Dashboard'
     const [showAddForm, setShowAddForm] = useState(false);
     const [showEditForm, setShowEditForm] = useState(false);
+    const [showViewForm, setShowViewForm] = useState(false);
     const [tableData, setTableData] = useState([]);
     const [acceptedData, setAcceptedData] = useState([]);
     const [department, setDepartment] = useState('');
@@ -79,6 +81,9 @@ const MainContainer = ({ user, onLogout }) => {
     const handleEditButtonClick = (index) => {
         setShowEditForm(true);
     };
+    const handleViewButtonClick = (index) => {
+        setShowViewForm(true);
+    };
 
     const handleCloseModal = () => {
         setShowAddForm(false);
@@ -103,6 +108,7 @@ const MainContainer = ({ user, onLogout }) => {
             <SideNav onOptionClick={onOptionClick} onLogout={onLogout} />
             {selectedOption === 'Dashboard' && <Dashboard tableData={tableData} showAddForm={showAddForm} handleCloseModal={handleCloseModal} addFormDataToTable={addFormDataToTable} handleAcceptButtonClick={handleAcceptButtonClick} />}
             {selectedOption === 'MIS Form 1' && <MISForm1 acceptedData={acceptedData} showAddForm={showAddForm} handleCloseModal={handleCloseModal} addFormDataToTable={addFormDataToTable} handleEditButtonClick={handleEditButtonClick} />}
+            {selectedOption === 'MIS Form 10' && <MISForm10 showAddForm={showAddForm} handleCloseModal={handleCloseModal} addFormDataToTable={addFormDataToTable} handleViewButtonClick={handleViewButtonClick} />}
             {selectedOption === 'Settings' && <Settings department={department} position={position} address={address} handleSubmit={handleSubmit} setDepartment={setDepartment} setPosition={setPosition} setAddress={setAddress} />}
         </div>
     );
