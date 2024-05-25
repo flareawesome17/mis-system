@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { FaEdit, FaPlus, FaPrint, FaStreetView } from 'react-icons/fa';
+import { FaEdit, FaPlus, FaPrint, FaTrash, FaAngleLeft, FaAngleRight } from 'react-icons/fa';
 import MRFAddForm from './MRF-add-form';
 import MRFViewForm from './MRF-view-form';
 import MRFEditForm from './MRF-edit-form';
@@ -7,13 +7,12 @@ import firebase from 'firebase/compat/app';
 import 'firebase/compat/firestore';
 import 'firebase/compat/auth';
 import './styles/MISForm1.css';
-import { FaAngleLeft, FaAngleRight, FaMagnifyingGlass, FaTrash, FaUsersViewfinder } from 'react-icons/fa6';
+import { FaMagnifyingGlass } from 'react-icons/fa6';
 
 const MISForm10 = ({ user, handleLogoutClick }) => {
     const [showAddForm, setShowAddForm] = useState(false);
     const [showEditForm, setShowEditForm] = useState(false);
     const [showViewForm, setShowViewForm] = useState(false);
-    const [acceptedData, setAcceptedData] = useState([]);
     const [deleteConfirmation, setDeleteConfirmation] = useState(null);
     const [address, setAddress] = useState('');
     const [position, setPosition] = useState('');
@@ -93,7 +92,6 @@ const MISForm10 = ({ user, handleLogoutClick }) => {
         setShowViewForm(true);
         setViewItemId(id);
     };
-    
 
     const addFormDataToTable = (formData) => {
         const db = firebase.firestore();
@@ -115,8 +113,6 @@ const MISForm10 = ({ user, handleLogoutClick }) => {
             try {
                 const db = firebase.firestore();
                 await db.collection('mrfForms').doc(id).delete();
-                //setAcceptedData(acceptedData.filter(item => item.id !== id));
-                alert('Document successfully deleted!');
             } catch (error) {
                 console.error('Error deleting document:', error);
             }
@@ -133,11 +129,11 @@ const MISForm10 = ({ user, handleLogoutClick }) => {
     };
 
     const filterDataByDateRangeAndAddress = () => {
-        let filtered = acceptedData.filter(data => data.accepted === true); // Add filter for accepted == true
+        let filtered = mrfForms;
 
         if (startDate && endDate) {
             filtered = filtered.filter(formsData => {
-                const dataDate = new Date(formsData.date);
+                const dataDate = new Date(formsData.dateReleased);
                 const start = new Date(startDate);
                 const end = new Date(endDate);
                 end.setHours(23, 59, 59, 999);
@@ -260,7 +256,7 @@ const MISForm10 = ({ user, handleLogoutClick }) => {
                             </tr>
                         </thead>
                         <tbody>
-                            {mrfForms.map(form => (
+                            {currentItems.map(form => (
                                 <tr key={form.id}>
                                     <td>{form.mrfNo}</td>
                                     <td>{form.name}</td>
@@ -274,7 +270,7 @@ const MISForm10 = ({ user, handleLogoutClick }) => {
                                     <td>{form.releasedBy}</td>
                                     <td>{form.dateReleased}</td>
                                     <td className="no-print">
-                                        <button className="action-button-view" onClick={() => handleViewButtonClick(form.id)}><FaMagnifyingGlass /> View</button>
+                                        <button className="action-button-view" onClick={() => handleViewButtonClick(form.id)}><FaMagnifyingGlass />View</button>
                                         <button className="action-button-edit" onClick={() => handleEditButtonClick(form.id)}><FaEdit /> Edit</button>
                                         <button className="action-button-delete" onClick={() => handleDeleteButtonClick(form.id)}><FaTrash /> Delete</button>
                                     </td>
@@ -302,4 +298,3 @@ const MISForm10 = ({ user, handleLogoutClick }) => {
 };
 
 export default MISForm10;
-
