@@ -42,7 +42,7 @@ const Header = ({ user, onLogout }) => {
   return (
     <header className="header no-print">
       <div className="header-title">
-        <h1>MIS SYSTEM <span className="muted-text">Peter Paul Corp.</span></h1>
+        <h1>MIS SYSTEM <span className="muted-text">Peter Paul Philippines Corp.</span></h1>
       </div>
       {user && userInfo && (
         <div className="header-content">

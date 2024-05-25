@@ -22,7 +22,14 @@ header .muted-text {
 /* Styles for the h1 element */
 header h1 {
   margin: 0;
-  margin-left: 500px;
+  font-size: 1.5em; /* Default font size */
+}
+
+/* Ensure the header title is aligned to the flex start */
+.header-title {
+  display: flex;
+  align-items: center;
+  justify-content: flex-start;
 }
 
 /* Style for the header content */
@@ -103,4 +110,72 @@ header button:hover {
 .confirmation-message button.no-button {
   background-color: #f44336;
   color: white;
+}
+
+/* Responsive styles */
+@media (max-width: 1200px) {
+  header h1 {
+    font-size: 1.3em;
+  }
+
+  header .username {
+    font-size: 15px;
+  }
+
+  .header-content .user-info {
+    font-size: 13px;
+  }
+
+  header button {
+    padding: 8px;
+    margin-right: 30px;
+  }
+}
+
+@media (max-width: 768px) {
+  header h1 {
+    font-size: 1.2em;
+  }
+
+  header .username {
+    font-size: 14px;
+  }
+
+  .header-content .user-info {
+    font-size: 12px;
+  }
+
+  header button {
+    padding: 7px;
+    margin-right: 20px;
+  }
+
+  .profile-pic {
+    width: 35px;
+    height: 35px;
+  }
+}
+
+@media (max-width: 480px) {
+  header h1 {
+    font-size: 1em;
+  }
+
+  header .username {
+    font-size: 12px;
+  }
+
+  .header-content .user-info {
+    font-size: 10px;
+  }
+
+  header button {
+    padding: 5px;
+    margin-right: 10px;
+  }
+
+  .profile-pic {
+    width: 30px;
+    height: 30px;
+  }
 }

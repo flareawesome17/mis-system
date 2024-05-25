@@ -22,7 +22,7 @@
   text-align: center; /* Center the text */
   margin-bottom: 20px; /* Add space below the content */
   /* Adjust width to accommodate SideNav and padding */
-  margin-left: 150px; /* Adjust margin to avoid SideNav overlap */
+  margin-left: 130px; /* Adjust margin to avoid SideNav overlap */
   margin-top: 50px;
 }
 
