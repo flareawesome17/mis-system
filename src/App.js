@@ -62,7 +62,7 @@ function App() {
   };
 
   return (
-    <Router>
+    <Router basename="/mis-system">
       <div className="App">
         <Header user={user} onLogout={handleLogout} />
         {user && (
