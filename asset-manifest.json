@@ -1,15 +1,15 @@
 {
   "files": {
-    "main.css": "/mis-system/static/css/main.40c10c84.css",
-    "main.js": "/mis-system/static/js/main.5acdeb29.js",
-    "static/js/453.dd829059.chunk.js": "/mis-system/static/js/453.dd829059.chunk.js",
-    "index.html": "/mis-system/index.html",
-    "main.40c10c84.css.map": "/mis-system/static/css/main.40c10c84.css.map",
-    "main.5acdeb29.js.map": "/mis-system/static/js/main.5acdeb29.js.map",
-    "453.dd829059.chunk.js.map": "/mis-system/static/js/453.dd829059.chunk.js.map"
+    "main.css": "/mis-system/dashboard/static/css/main.40c10c84.css",
+    "main.js": "/mis-system/dashboard/static/js/main.da8cc308.js",
+    "static/js/453.dd829059.chunk.js": "/mis-system/dashboard/static/js/453.dd829059.chunk.js",
+    "index.html": "/mis-system/dashboard/index.html",
+    "main.40c10c84.css.map": "/mis-system/dashboard/static/css/main.40c10c84.css.map",
+    "main.da8cc308.js.map": "/mis-system/dashboard/static/js/main.da8cc308.js.map",
+    "453.dd829059.chunk.js.map": "/mis-system/dashboard/static/js/453.dd829059.chunk.js.map"
   },
   "entrypoints": [
     "static/css/main.40c10c84.css",
-    "static/js/main.5acdeb29.js"
+    "static/js/main.da8cc308.js"
   ]
 }
