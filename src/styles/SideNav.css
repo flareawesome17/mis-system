@@ -9,8 +9,8 @@
   box-shadow: 2px 0 5px rgba(0, 0, 0, 0.1);
   display: flex;
   flex-direction: column; /* Align items in a column */
-  justify-content: space-between; /* Space evenly between items */
   transition: width 0.3s; /* Add transition for smooth collapse animation */
+  align-items: flex-start; /* Align items to the start (left) */
 }
 
 .side-nav.collapsed {
@@ -21,37 +21,65 @@
   list-style-type: none;
   padding: 0;
   margin: 0;
+  width: 100%; /* Ensure full width for flex alignment */
 }
 
 .side-nav ul li {
   margin-bottom: 10px;
-  border-bottom: #4CAF50 solid 1px;
+  width: 100%; /* Ensure full width for flex alignment */
 }
 
 .side-nav ul li a {
-  display: block;
+  display: flex; /* Use flexbox for alignment */
+  align-items: center; /* Center items vertically */
   padding: 10px;
   text-decoration: none;
   color: #ffffff;
   font-weight: normal;
-  transition: background-color 1s;
-  font-size: 12px;
+  transition: background-color 0.3s;
+  font-size: 14px;
+  width: 100%; /* Ensure full width for flex alignment */
+  box-sizing: border-box; /* Include padding and border in element's total width and height */
+  border-radius: 30px;
+}
+
+.side-nav ul li a .link-text {
+  margin-left: 10px; /* Add space between icon and text */
 }
 
 .side-nav ul li a:hover {
   background-color: #696969;
-  border-radius: 30px;
 }
 
 .side-nav ul li a.active {
   background-color: #4CAF50;
   color: white;
-  border-radius: 30px;
+}
+
+.side-nav.collapsed ul li a {
+  justify-content: center; /* Center the icon horizontally */
+  padding: 10px; /* Adjust padding to make icon area clickable */
+}
+
+.side-nav.collapsed ul li a .link-text {
+  display: none; /* Hide text when collapsed */
+}
+
+.side-nav.collapsed ul li a:hover {
+  background-color: transparent; /* Remove background color on hover when collapsed */
+}
+
+.side-nav.collapsed ul li a:hover .link-icon {
+  background-color: #696969; /* Apply background color to icon */
+  border-radius: 50%; /* Make the icon background circular */
+  padding: 5px; /* Add padding to the icon */
 }
 
 .footer {
   color: #696969;
   font-style: italic;
+  margin-top: auto; /* Push footer to the bottom */
+  width: 100%; /* Ensure full width for flex alignment */
 }
 
 .footer button {
@@ -70,6 +98,7 @@
 .footer button:hover {
   background-color: #505050;
 }
+
 .notification-count {
   background-color: red;
   color: white;

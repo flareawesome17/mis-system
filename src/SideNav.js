@@ -1,8 +1,8 @@
 import React, { useState, useEffect } from 'react';
-import { FaPlus, FaPrint, FaChartBar, FaCog, FaChevronLeft, FaChevronRight } from 'react-icons/fa';
+import { FaPlus, FaPrint, FaChartBar, FaCog, FaChevronLeft, FaChevronRight, FaRegQuestionCircle } from 'react-icons/fa';
 import { NavLink } from 'react-router-dom';
 import './styles/SideNav.css';
-import { FaPersonDotsFromLine } from 'react-icons/fa6';
+import { FaBattleNet, FaCheckDouble, FaItunesNote, FaMessage, FaPersonDotsFromLine } from 'react-icons/fa6';
 import firebase from 'firebase/compat/app';
 import 'firebase/compat/firestore';
 
@@ -55,10 +55,11 @@ const SideNav = ({ user }) => {
     };
 
     const options = [
-        { name: 'Dashboard', path: '/dashboard', icon: <FaChartBar /> },
-        { name: 'MIS Form 1', path: '/form1', icon: <FaPersonDotsFromLine /> },
-        { name: 'MIS Form 10', path: '/form10', icon: <FaPrint /> },
-        { name: 'Settings', path: '/settings', icon: <FaCog /> }
+        { name: 'Dashboard', path: '/dashboard', icon: <FaChartBar className="link-icon" /> },
+        { name: 'MIS Form 1', path: '/form1', icon: <FaPersonDotsFromLine className="link-icon" /> },
+        { name: 'MIS Form 10', path: '/form10', icon: <FaBattleNet className="link-icon" /> },
+        { name: 'STR', path: '/str', icon: <FaCheckDouble className="link-icon" /> },
+        { name: 'Settings', path: '/settings', icon: <FaCog className="link-icon" /> }
     ];
 
     const filteredOptions = options.filter(option => {
@@ -77,7 +78,8 @@ const SideNav = ({ user }) => {
                             to={option.path}
                             activeClassName="active"
                         >
-                            {collapsed ? option.icon : (<> {option.icon} {option.name} </>)}
+                            {option.icon}
+                            {!collapsed && <span className="link-text">{option.name}</span>}
                         </NavLink>
                     </li>
                 ))}

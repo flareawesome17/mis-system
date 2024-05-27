@@ -39,6 +39,13 @@ const Header = ({ user, onLogout }) => {
     }
   }, [user, fetchUserData]);
 
+  const formatDisplayName = (displayName) => {
+    if (!displayName) return '';
+    const names = displayName.split(' ');
+    if (names.length === 1) return names[0];
+    return `${names[0]} ${names[1].charAt(0)}.`;
+  };
+
   return (
     <header className="header no-print">
       <div className="header-title">
@@ -48,7 +55,7 @@ const Header = ({ user, onLogout }) => {
         <div className="header-content">
           <img src={user.photoURL} alt="Profile" className="profile-pic" />
           <div className="user-details">
-            <span className="username">{user.displayName}</span>
+            <span className="username">{formatDisplayName(user.displayName)}</span>
             <span className="user-info">({userInfo.position || ''})</span>
             <span className="user-info">{userInfo.department || ''}</span>
             <span className="user-info">{userInfo.address || ''}</span>
