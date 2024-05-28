@@ -37,7 +37,7 @@
   color: #ffffff;
   font-weight: normal;
   transition: background-color 0.3s;
-  font-size: 14px;
+  font-size: 10px;
   width: 100%; /* Ensure full width for flex alignment */
   box-sizing: border-box; /* Include padding and border in element's total width and height */
   border-radius: 30px;
@@ -102,7 +102,7 @@
 .notification-count {
   background-color: red;
   color: white;
-  font-size: 12px;
+  font-size: 8px;
   padding: 3px 6px;
   border-radius: 50%;
   position: absolute;

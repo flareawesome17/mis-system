@@ -252,7 +252,7 @@ const MISForm10 = ({ user, handleLogoutClick }) => {
                                 <th>Unit</th>
                                 <th>Released by</th>
                                 <th>Date Released</th>
-                                <th>Action</th>
+                                <th className='no-print'>Action</th>
                             </tr>
                         </thead>
                         <tbody>

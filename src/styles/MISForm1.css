@@ -130,3 +130,12 @@ tr:hover {
     100% { transform: rotate(360deg); }
   }
   
+  .table-row-approved {
+    background-color: green;
+    color: rgb(5, 5, 5); /* optional: for better readability */
+}
+
+.table-row-denied {
+    background-color: red;
+    color: rgb(5, 5, 5); /* optional: for better readability */
+}

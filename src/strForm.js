@@ -1,11 +1,10 @@
 import React, { useState, useEffect } from 'react';
-import { FaEdit, FaPlus, FaPrint, FaTrash, FaAngleLeft, FaAngleRight, FaCheck, FaCheckSquare, FaRecordVinyl } from 'react-icons/fa';
+import { FaEdit, FaPlus, FaPrint, FaTrash, FaAngleLeft, FaAngleRight } from 'react-icons/fa';
 import StrAddForm from './str-add-form';
 import firebase from 'firebase/compat/app';
 import 'firebase/compat/firestore';
 import 'firebase/compat/auth';
 import './styles/MISForm1.css';
-import { FaListCheck, FaThumbsDown, FaThumbsUp } from 'react-icons/fa6';
 
 const StrForm = ({ user }) => {
     const [showAddForm, setShowAddForm] = useState(false);
@@ -224,12 +223,11 @@ const StrForm = ({ user }) => {
                                 <th>Reason</th>
                                 <th>Status</th>
                                 {allowedPositions.includes(position) && (<th>Actions</th>)}
-                                {/*{allowedPositions.includes(position) && (<th>Action</th>)}*/}
                             </tr>
                         </thead>
                         <tbody>
                             {currentItems.map(form => (
-                                <tr key={form.id}>
+                                <tr key={form.id} className={`table-row-${form.status.toLowerCase()}`}>
                                     <td>{form.strNo}</td>
                                     <td>{form.name}</td>
                                     <td>{form.itemRequested}</td>
@@ -241,10 +239,7 @@ const StrForm = ({ user }) => {
                                     <td>{form.status}</td>
                                     {allowedPositions.includes(position) && (
                                         <td className="no-print">
-                                            {/*<button className="action-button-edit" onClick={() => handleStatusUpdate(form.id, 'Approved')}><FaThumbsUp /> Approve</button>
-                                            <button className="action-button-delete" onClick={() => handleStatusUpdate(form.id, 'Denied')}><FaThumbsDown /> Deny</button>*/}
                                             <button className="action-button-delete" onClick={() => handleDeleteButtonClick(form.id)}><FaTrash /> Delete</button>
-
                                         </td>
                                     )}
                                 </tr>
