@@ -2,17 +2,18 @@ import React, { useState, useEffect } from 'react';
 import { FaPlus, FaPrint, FaChartBar, FaCog, FaChevronLeft, FaChevronRight, FaRegQuestionCircle } from 'react-icons/fa';
 import { NavLink } from 'react-router-dom';
 import './styles/SideNav.css';
-import { FaBattleNet, FaCheckDouble, FaItunesNote, FaMessage, FaPersonDotsFromLine } from 'react-icons/fa6';
+import { FaBattleNet, FaCheckDouble, FaDungeon, FaItunesNote, FaMessage, FaPersonDotsFromLine } from 'react-icons/fa6';
 import firebase from 'firebase/compat/app';
 import 'firebase/compat/firestore';
 
 const SideNav = ({ user }) => {
     const [collapsed, setCollapsed] = useState(false);
     const [notificationCount, setNotificationCount] = useState(0);
+    const [strNotificationCount, setStrNotificationCount] = useState(0);
     const [address, setAddress] = useState('');
     const [position, setPosition] = useState('');
-
     const allowedPositions = ['MIS STAFF', 'Mis Staff', 'mis staff', 'MIS'];
+    const allowedStrPositions = ['MIS STAFF', 'Mis Staff', 'mis staff', 'MIS', 'Store Room Clerk', 'STORE ROOM CLERK'];
 
     useEffect(() => {
         if (user) {
@@ -38,7 +39,7 @@ const SideNav = ({ user }) => {
     useEffect(() => {
         if (address) {
             const db = firebase.firestore();
-            const unsubscribe = db.collection('mjrForms')
+            const unsubscribeMJR = db.collection('mjrForms')
                 .where('accepted', '==', false)
                 .where('address', '==', address.toUpperCase())
                 .onSnapshot(snapshot => {
@@ -46,7 +47,18 @@ const SideNav = ({ user }) => {
                     setNotificationCount(count);
                 });
 
-            return () => unsubscribe();
+            const unsubscribeSTR = db.collection('strForms')
+                .where('status', '==', 'Pending')
+                .where('address', '==', address.toUpperCase())
+                .onSnapshot(snapshot => {
+                    const count = snapshot.docs.length;
+                    setStrNotificationCount(count);
+                });
+
+            return () => {
+                unsubscribeMJR();
+                unsubscribeSTR();
+            };
         }
     }, [address]);
 
@@ -58,13 +70,16 @@ const SideNav = ({ user }) => {
         { name: 'Dashboard', path: '/dashboard', icon: <FaChartBar className="link-icon" /> },
         { name: 'MIS Form 1', path: '/form1', icon: <FaPersonDotsFromLine className="link-icon" /> },
         { name: 'MIS Form 10', path: '/form10', icon: <FaBattleNet className="link-icon" /> },
-        { name: 'STR', path: '/str', icon: <FaCheckDouble className="link-icon" /> },
+        { name: 'STR', path: '/storeroom', icon: <FaDungeon className="link-icon" /> },
         { name: 'Settings', path: '/settings', icon: <FaCog className="link-icon" /> }
     ];
 
     const filteredOptions = options.filter(option => {
         if (option.name === 'MIS Form 10') {
             return allowedPositions.includes(position);
+        }
+        if (option.name === 'STR') {
+            return allowedStrPositions.includes(position);
         }
         return true;
     });
@@ -85,8 +100,11 @@ const SideNav = ({ user }) => {
                 ))}
             </ul>
             <footer className="footer">
-                {notificationCount > 0 && (
-                    <div className="notification-count">{notificationCount}</div>
+                {(notificationCount > 0 || strNotificationCount > 0) && (
+                    <div className="notification-count">
+                        {notificationCount > 0 && <div>MJR: {notificationCount}</div>}
+                        {strNotificationCount > 0 && <div>STR: {strNotificationCount}</div>}
+                    </div>
                 )}
                 <button onClick={toggleCollapse}>
                     {collapsed ? <FaChevronRight /> : <FaChevronLeft />}

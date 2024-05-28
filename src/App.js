@@ -7,6 +7,7 @@ import SignInPage from './SignInPage';
 import Dashboard from './Dashboard';
 import MISForm1 from './MISForm1';
 import MISForm10 from './MISForm10';
+import StrForm from './strForm';
 import Settings from './Settings';
 import './styles/App.css'; // Import CSS for styling
 import './styles/SignInPage.css';
@@ -62,17 +63,18 @@ function App() {
   };
 
   return (
-    <Router basename="/mis-system">
+    <Router>
       <div className="App">
         <Header user={user} onLogout={handleLogout} />
         {user && (
           <div className="layout">
             <SideNav user={user} onOptionClick={() => {}} />
             <Routes>
-              <Route path="/" element={<MainContainer />} />
+              <Route path="/" element={<Dashboard user={user}/>} />
               <Route path="/dashboard" element={<Dashboard user={user}/>} />
-              <Route path="/form1" element={<MISForm1 user={user} />} /> {/* Pass user here */}
-              <Route path="/form10" element={<MISForm10 user={user} />} /> {/* Pass user here */}
+              <Route path="/form1" element={<MISForm1 user={user} />} /> 
+              <Route path="/form10" element={<MISForm10 user={user} />} /> 
+              <Route path="/storeroom" element={<StrForm user={user} />} /> 
               <Route path="/settings" element={<Settings />} />
             </Routes>
           </div>

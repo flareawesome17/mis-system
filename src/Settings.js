@@ -45,14 +45,12 @@ const Settings = () => {
             setTimeout(() => {
                 setNotification('');
             }, 3000);
-            alert("Successfully saved");
         } catch (error) {
             setNotification('Error updating user profile');
             setTimeout(() => {
                 setNotification('');
             }, 3000);
             console.error('Error updating user profile:', error);
-            alert("Error");
         }
     };
 
