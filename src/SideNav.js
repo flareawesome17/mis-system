@@ -2,7 +2,7 @@ import React, { useState, useEffect } from 'react';
 import { FaPlus, FaPrint, FaChartBar, FaCog, FaChevronLeft, FaChevronRight, FaRegQuestionCircle } from 'react-icons/fa';
 import { NavLink } from 'react-router-dom';
 import './styles/SideNav.css';
-import { FaBattleNet, FaCheckDouble, FaDungeon, FaFolder, FaFolderPlus, FaItunesNote, FaMessage, FaPersonDotsFromLine } from 'react-icons/fa6';
+import { FaBattleNet, FaCheckDouble, FaDungeon, FaFolder, FaFolderPlus, FaHashnode, FaItunesNote, FaMessage, FaPersonDotsFromLine, FaStar } from 'react-icons/fa6';
 import firebase from 'firebase/compat/app';
 import 'firebase/compat/firestore';
 import { MdAssignmentAdd } from 'react-icons/md';
@@ -72,6 +72,7 @@ const SideNav = ({ user }) => {
         { name: 'MIS Form 1', path: '/form1', icon: <MdAssignmentAdd className="link-icon" /> },
         { name: 'MIS Form 10', path: '/form10', icon: <FaFolderPlus className="link-icon" /> },
         { name: 'STR', path: '/storeroom', icon: <FaDungeon className="link-icon" /> },
+        { name: 'PSWD Manager', path: '/pswdmanager', icon: <FaStar className="link-icon" /> },
         { name: 'Settings', path: '/settings', icon: <FaCog className="link-icon" /> }
     ];
 

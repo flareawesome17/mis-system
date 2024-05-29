@@ -3,6 +3,7 @@ import { BrowserRouter as Router, Route, Routes, Navigate } from 'react-router-d
 import Header from './Header';
 import SideNav from './SideNav';
 import MainContainer from './MainContainer';
+import PswdManager from './passwordManager';
 import SignInPage from './SignInPage';
 import Dashboard from './Dashboard';
 import MISForm1 from './MISForm1';
@@ -80,6 +81,7 @@ function App() {
               <Route path="/form1" element={<MISForm1 user={user} />} /> 
               <Route path="/form10" element={<MISForm10 user={user} />} /> 
               <Route path="/storeroom" element={<StrForm user={user} />} /> 
+              <Route path="/pswdmanager" element={<PswdManager user={user} />} /> 
               <Route path="/settings" element={<Settings />} />
             </Routes>
           </div>
