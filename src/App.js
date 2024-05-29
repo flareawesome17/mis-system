@@ -15,7 +15,6 @@ import firebase from 'firebase/compat/app';
 import 'firebase/compat/auth';
 import 'firebase/compat/firestore';
 
-
 // Firebase configuration
 const firebaseConfig = {
   apiKey: "AIzaSyAMzNSoPzmayJFTJNuwWpXzqVr3IL9oZXk",
@@ -61,6 +60,12 @@ function App() {
       console.error('Logout error:', error);
     });
   };
+
+  useEffect(() => {
+    if (Notification.permission !== 'granted') {
+      Notification.requestPermission();
+    }
+  }, []);
 
   return (
     <Router>

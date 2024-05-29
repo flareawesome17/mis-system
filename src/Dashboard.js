@@ -11,6 +11,8 @@ const Dashboard = ({ user }) => {
     const [address, setAddress] = useState('');
     const [loading, setLoading] = useState(true);
     const [position, setPosition] = useState('');
+    const [mjrNotificationSent, setMjrNotificationSent] = useState(false); // Added state for MJR notification
+    const [strNotificationSent, setStrNotificationSent] = useState(false); // Added state for STR notification
 
     useEffect(() => {
         if (user) {
@@ -44,6 +46,10 @@ const Dashboard = ({ user }) => {
                 data.sort((a, b) => a.mjrNo - b.mjrNo);
                 setAcceptedData(data);
                 setLoading(false);
+                if (data.length > 0 && !mjrNotificationSent) {
+                    sendPushNotification('MJR Forms Fetched', `Fetched ${data.length} MJR forms`);
+                    setMjrNotificationSent(true); // Set flag to true to ensure notification is sent only once
+                }
             }, (error) => {
                 console.error('Error fetching data:', error);
                 setLoading(false);
@@ -56,6 +62,10 @@ const Dashboard = ({ user }) => {
                 const data = snapshot.docs.map(doc => ({ id: doc.id, ...doc.data() }));
                 setStrForms(data);
                 setLoading(false);
+                if (data.length > 0 && !strNotificationSent) {
+                    sendPushNotification('STR Forms Fetched', `Fetched ${data.length} STR forms`);
+                    setStrNotificationSent(true); // Set flag to true to ensure notification is sent only once
+                }
             }, (error) => {
                 console.error('Error fetching data:', error);
                 setLoading(false);
@@ -68,7 +78,16 @@ const Dashboard = ({ user }) => {
         };
 
         fetchData();
-    }, [address]);
+    }, [address, mjrNotificationSent, strNotificationSent]); // Ensure useEffect is dependent on notification flags
+
+    const sendPushNotification = (title, body) => {
+        navigator.serviceWorker.ready.then(registration => {
+            registration.showNotification(title, {
+                body,
+                icon: 'icon.png'
+            });
+        });
+    };
 
     const handleAcceptButtonClick = async (id) => {
         try {

@@ -1,52 +1,145 @@
 /* Styles for the SignInPage component */
 
 .signin-page {
-    background: linear-gradient(135deg, #c8f0b6, #9b59b6);
-    height: 100vh;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-  }
-  
-  .signin-card {
-    background: white;
-    padding: 40px;
-    border-radius: 10px;
-    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-    text-align: center;
-    max-width: 400px;
-    width: 100%;
-  }
-  
-  .signin-card h2 {
-    margin-bottom: 20px;
-    color: #333;
-  }
-  
-  .signin-card p {
-    margin-bottom: 30px;
-    color: #777;
-  }
-  
-  .google-signin-button {
-    background: #4285f4;
-    color: white;
-    padding: 10px 20px;
-    border: none;
-    border-radius: 5px;
-    cursor: pointer;
-   
-    align-items: center;
-    justify-content: center; /* Center horizontally */
-    transition: background 0.3s;
-  }
-  
-  .google-signin-button img {
-    width: 20px;
-    margin-right: 10px;
-  }
-  
-  .google-signin-button:hover {
-    background: #357ae8;
-  }
-  
+  background: linear-gradient(135deg, #c8f0b6, #9b59b6);
+  height: 100vh;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.signin-card {
+  background: white;
+  padding: 40px;
+  border-radius: 10px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  text-align: center;
+  max-width: 400px;
+  width: 100%;
+}
+
+.signin-card h2 {
+  margin-bottom: 20px;
+  color: #333;
+}
+
+.signin-card p {
+  margin-bottom: 30px;
+  color: #777;
+}
+
+.google-signin-button {
+  background: #4285f4;
+  color: white;
+  padding: 10px 20px;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center; /* Center horizontally */
+  transition: background 0.3s;
+  width: 100%; /* Make the button full width */
+}
+
+.google-signin-button img {
+  width: 20px;
+  margin-right: 10px;
+}
+
+.google-signin-button:hover {
+  background: #357ae8;
+}
+
+input[type="email"],
+input[type="password"],
+input[type="text"] {
+  width: 100%;
+  padding: 10px;
+  margin: 10px 0;
+  border: 1px solid #ccc;
+  border-radius: 5px;
+}
+
+button[type="submit"] {
+  background: #9b59b6;
+  color: white;
+  padding: 10px 20px;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+  transition: background 0.3s;
+  width: 100%; /* Make the button full width */
+}
+
+button[type="submit"]:hover {
+  background: #8e44ad;
+}
+
+.toggle-text {
+  margin-top: 10px;
+  color: #555;
+}
+
+.toggle-text span {
+  color: #9b59b6;
+  cursor: pointer;
+  text-decoration: underline;
+}
+
+label {
+  display: block;
+  margin-bottom: 10px;
+  font-weight: bold;
+  color: #333;
+}
+
+.separator {
+  display: flex;
+  align-items: center;
+  text-align: center;
+  margin: 20px 0;
+}
+
+.separator::before,
+.separator::after {
+  content: '';
+  flex: 1;
+  border-bottom: 1px solid #ccc;
+}
+
+.separator:not(:empty)::before {
+  margin-right: .25em;
+}
+
+.separator:not(:empty)::after {
+  margin-left: .25em;
+}
+
+.error {
+  color: red;
+  margin-bottom: 10px;
+}
+
+.back-button-container {
+  display: flex;
+  align-items: center;
+  justify-content: flex-start;
+  top: 10px;
+  left: 10px;
+}
+
+
+.back-button {
+  background: none;
+  border: none;
+  cursor: pointer;
+  padding: 0;
+  color: #333;
+}
+
+.back-button:hover {
+  background: none;
+  color: #555;
+}
+
