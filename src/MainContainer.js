@@ -9,6 +9,8 @@ import Dashboard from './Dashboard';
 import MISForm1 from './MISForm1';
 import MISForm10 from './MISForm10';
 import Settings from './Settings';
+import PswdManager from './passwordManager-add';
+
 
 const MainContainer = ({ user, onLogout }) => {
     const [selectedOption, setSelectedOption] = useState('Dashboard'); // Default to 'Dashboard'
@@ -107,6 +109,7 @@ const MainContainer = ({ user, onLogout }) => {
             {selectedOption === 'Dashboard' && <Dashboard tableData={tableData} showAddForm={showAddForm} handleCloseModal={handleCloseModal} addFormDataToTable={addFormDataToTable} handleAcceptButtonClick={handleAcceptButtonClick} />}
             {selectedOption === 'MIS Form 1' && <MISForm1 acceptedData={acceptedData} showAddForm={showAddForm} handleCloseModal={handleCloseModal} addFormDataToTable={addFormDataToTable} handleEditButtonClick={handleEditButtonClick} />}
             {selectedOption === 'MIS Form 10' && <MISForm10 showAddForm={showAddForm} handleCloseModal={handleCloseModal} addFormDataToTable={addFormDataToTable} handleViewButtonClick={handleViewButtonClick} />}
+            {selectedOption === 'PSWD Manager' && <PswdManager showAddForm={showAddForm} handleCloseModal={handleCloseModal} addFormDataToTable={addFormDataToTable} handleViewButtonClick={handleViewButtonClick} />}
             {selectedOption === 'Settings' && <Settings department={department} position={position} address={address} handleSubmit={handleSubmit} setDepartment={setDepartment} setPosition={setPosition} setAddress={setAddress} />}
         </div>
     );
