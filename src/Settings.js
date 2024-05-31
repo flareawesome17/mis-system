@@ -5,6 +5,7 @@ import 'firebase/compat/firestore'; // Import Firestore
 import './styles/Settings.css';
 
 const Settings = () => {
+    const [name, setName] = useState('');
     const [department, setDepartment] = useState('');
     const [position, setPosition] = useState('');
     const [address, setAddress] = useState('');
@@ -18,6 +19,7 @@ const Settings = () => {
                 const doc = await userDocRef.get();
                 if (doc.exists) {
                     const userData = doc.data();
+                    setName(userData.name || '');
                     setDepartment(userData.department || '');
                     setPosition(userData.position || '');
                     setAddress(userData.address || '');
@@ -37,6 +39,7 @@ const Settings = () => {
         try {
             const userDocRef = firebase.firestore().collection('users').doc(user.uid);
             await userDocRef.set({
+                name,
                 department,
                 position,
                 address
@@ -58,6 +61,10 @@ const Settings = () => {
         <div className="settings-content">
             <h2>Settings</h2>
             <form onSubmit={handleSubmit}>
+                <div className="form-group">
+                    <label htmlFor="name">Full Name:</label>
+                    <input type="text" id="name" value={name} onChange={(e) => setName(e.target.value)} />
+                </div>
                 <div className="form-group">
                     <label htmlFor="department">Department:</label>
                     <input type="text" id="department" value={department} onChange={(e) => setDepartment(e.target.value)} />

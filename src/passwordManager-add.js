@@ -30,22 +30,25 @@ const PswdAdd = ({ showForm, onClose }) => {
     }, []);
 
     useEffect(() => {
-        const user = firebase.auth().currentUser;
-        if (user) {
-            const userDocRef = firebase.firestore().collection('users').doc(user.uid);
-            const unsubscribe = userDocRef.onSnapshot((doc) => {
-                if (doc.exists) {
-                    const userData = doc.data();
-                    setUserAddress(userData.address || '');
-                } else {
-                    console.log('No such document!');
+        const fetchUserAddress = async () => {
+            const user = firebase.auth().currentUser;
+            if (user) {
+                try {
+                    const userDocRef = firebase.firestore().collection('users').doc(user.uid);
+                    const doc = await userDocRef.get();
+                    if (doc.exists) {
+                        const userData = doc.data();
+                        setUserAddress(userData.address || '');
+                    } else {
+                        console.log('No such document!');
+                    }
+                } catch (error) {
+                    console.error('Error fetching user address:', error);
                 }
-            }, (error) => {
-                console.error('Error fetching user address:', error);
-            });
+            }
+        };
 
-            return () => unsubscribe();
-        }
+        fetchUserAddress();
     }, []);
 
     const handleChange = (e) => {
@@ -132,28 +135,34 @@ const PswdAdd = ({ showForm, onClose }) => {
                     </div>
                     <div className="form-group">
                         <label>Account Type:</label>
-                        <input
+                        <select
                             className="add-form-text"
-                            type="text"
                             name="accountType"
                             value={formData.accountType}
-                            placeholder="Enter account type"
                             onChange={handleChange}
                             required
-                        />
+                        >
+                            <option value="">Select Account Type</option>
+                            <option value="Outlook">Outlook</option>
+                            <option value="Nav">Nav</option>
+                            <option value="PC">PC</option>
+                            <option value="Teams">Teams</option>
+                        </select>
                     </div>
                     <div className="form-group">
                         <label>Status:</label>
-                        <input
+                        <select
                             className="add-form-text"
-                            type="text"
                             name="status"
                             value={formData.status}
-                            placeholder="Enter status"
                             onChange={handleChange}
                             required
-                        />
-                    </div>
+                        >
+                            <option value="">Select Status</option>
+                            <option value="Active">Active</option>
+                            <option value="Inactive">Inactive</option>
+                        </select>
+                    </div>        
                     <div className="button-group">
                         <button type="submit">Submit</button>
                     </div>

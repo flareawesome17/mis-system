@@ -139,3 +139,21 @@ tr:hover {
     background-color: red;
     color: rgb(5, 5, 5); /* optional: for better readability */
 }
+.filter-container {
+    display: flex;
+    justify-content: flex-start;
+    align-items: center;
+    gap: 200px; /* Add space between the filter elements */
+}
+
+.date-filter-container {
+    display: flex;
+    gap: 0.5rem;
+}
+
+.date-filter,
+.account-type-filter,
+.status-filter {
+    display: flex;
+    flex-direction: column;
+}

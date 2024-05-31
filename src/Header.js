@@ -55,7 +55,11 @@ const Header = ({ user, onLogout }) => {
         <div className="header-content">
           <img src={user.photoURL} alt="Profile" className="profile-pic" />
           <div className="user-details">
-            <span className="username">{formatDisplayName(user.displayName)}</span>
+            <span className="username">
+              {user.providerData[0].providerId === 'google.com'
+                ? formatDisplayName(user.displayName)
+                : formatDisplayName(userInfo.name || '')}
+            </span>
             <span className="user-info">({userInfo.position || ''})</span>
             <span className="user-info">{userInfo.department || ''}</span>
             <span className="user-info">{userInfo.address || ''}</span>

@@ -17,6 +17,8 @@ const PswdManager = ({ user }) => {
     const [currentPage, setCurrentPage] = useState(1);
     const [itemsPerPage, setItemsPerPage] = useState(10);
     const [pswrdManager, setPswrdManager] = useState([]);
+    const [accountTypeFilter, setAccountTypeFilter] = useState('');
+    const [statusFilter, setStatusFilter] = useState('');
 
     useEffect(() => {
         if (user) {
@@ -52,7 +54,7 @@ const PswdManager = ({ user }) => {
             });
             return unsubscribe; // Unsubscribe from snapshot listener when component unmounts
         };
-    
+
         const unsubscribe = fetchPswdData();
         return () => unsubscribe(); // Cleanup function to unsubscribe from snapshot listener
     }, []);
@@ -96,7 +98,15 @@ const PswdManager = ({ user }) => {
         setEndDate(e.target.value);
     };
 
-    const filterDataByDateRangeAndAddress = () => {
+    const handleAccountTypeFilterChange = (e) => {
+        setAccountTypeFilter(e.target.value);
+    };
+
+    const handleStatusFilterChange = (e) => {
+        setStatusFilter(e.target.value);
+    };
+
+    const filterDataByDateRangeAndAddressAndAccountType = () => {
         let filtered = pswrdManager;
 
         if (startDate && endDate) {
@@ -110,12 +120,20 @@ const PswdManager = ({ user }) => {
             });
         }
 
+        if (accountTypeFilter) {
+            filtered = filtered.filter(data => data.accountType === accountTypeFilter);
+        }
+
+        if (statusFilter) {
+            filtered = filtered.filter(data => data.status === statusFilter);
+        }
+
         return filtered
             .filter(data => data.address === address)
             .sort((a, b) => b.pswrdNo - a.pswrdNo);
     };
 
-    const filteredData = filterDataByDateRangeAndAddress();
+    const filteredData = filterDataByDateRangeAndAddressAndAccountType();
 
     const handlePrint = () => {
         window.print();
@@ -168,28 +186,49 @@ const PswdManager = ({ user }) => {
                     }
                 </div>
                 {allowedPositions.includes(position) && (
-                    <div className="date-filter-container">
-                        <div className="date-filter">
-                            <label htmlFor="startDate">Date Start:</label>
-                            <input
-                                type="date"
-                                id="startDate"
-                                placeholder="Start Date"
-                                onChange={handleStartDateChange}
-                                value={startDate}
-                            />
+                    <div className="filter-container">
+                        <div className="account-type-filter">
+                            <label htmlFor="accountType">Account Type:</label>
+                            <select id="accountType" value={accountTypeFilter} onChange={handleAccountTypeFilterChange}>
+                                <option value="">All</option>
+                                <option value="Outlook">Outlook</option>
+                                <option value="Nav">Nav</option>
+                                <option value="PC">PC</option>
+                                <option value="Teams">Teams</option>
+                            </select>
                         </div>
-                        <div className="date-filter">
-                            <label htmlFor="endDate">Date End:</label>
-                            <input
-                                type="date"
-                                id="endDate"
-                                placeholder="End Date"
-                                onChange={handleEndDateChange}
-                                value={endDate}
-                            />
+                        <div className="date-filter-container">
+                            <div className="date-filter">
+                                <label htmlFor="startDate">Date Start:</label>
+                                <input
+                                    type="date"
+                                    id="startDate"
+                                    placeholder="Start Date"
+                                    onChange={handleStartDateChange}
+                                    value={startDate}
+                                />
+                            </div>
+                            <div className="date-filter">
+                                <label htmlFor="endDate">Date End:</label>
+                                <input
+                                    type="date"
+                                    id="endDate"
+                                    placeholder="End Date"
+                                    onChange={handleEndDateChange}
+                                    value={endDate}
+                                />
+                            </div>
+                        </div>
+                        <div className="status-filter">
+                            <label htmlFor="status">Status:</label>
+                            <select id="status" value={statusFilter} onChange={handleStatusFilterChange}>
+                                <option value="">All</option>
+                                <option value="Active">Active</option>
+                                <option value="Inactive">Inactive</option>
+                            </select>
                         </div>
                     </div>
+
                 )}
                 <div className="items-per-page-container">
                     <label htmlFor="itemsPerPage">Items per page:</label>
@@ -210,34 +249,34 @@ const PswdManager = ({ user }) => {
                     </div>
                 ) : (
                     <>
-                    <table>
-                        <thead>
-                            <tr>
-                                <th>Password No.</th>
-                                <th>Email</th>
-                                <th>Password</th>
-                                <th>Account Type</th>
-                                <th>Status</th>
-                                {allowedPositions.includes(position) && (<th>Actions</th>)}
-                            </tr>
-                        </thead>
-                        <tbody>
-                            {currentItems.map(data => (
-                                <tr key={data.id} className={`table-row-${data.status.toLowerCase()}`}>
-                                    <td>{data.pswrdNo}</td>
-                                    <td>{data.email}</td>
-                                    <td>{data.password}</td>
-                                    <td>{data.accountType}</td>
-                                    <td>{data.status}</td>
-                                    {allowedPositions.includes(position) && (
-                                        <td className="no-print">
-                                            <button className="action-button-delete" onClick={() => handleDeleteButtonClick(data.id)}><FaTrash /> Delete</button>
-                                        </td>
-                                    )}
+                        <table>
+                            <thead>
+                                <tr>
+                                    <th>Password No.</th>
+                                    <th>Email</th>
+                                    <th>Password</th>
+                                    <th>Account Type</th>
+                                    <th>Status</th>
+                                    {allowedPositions.includes(position) && (<th className='no-print'>Actions</th>)}
                                 </tr>
-                            ))}
-                        </tbody>
-                    </table>
+                            </thead>
+                            <tbody>
+                                {currentItems.map(data => (
+                                    <tr key={data.id} className={`table-row-${data.status.toLowerCase()}`}>
+                                        <td>{data.pswrdNo}</td>
+                                        <td>{data.email}</td>
+                                        <td>{data.password}</td>
+                                        <td>{data.accountType}</td>
+                                        <td>{data.status}</td>
+                                        {allowedPositions.includes(position) && (
+                                            <td className="no-print">
+                                                <button className="action-button-delete" onClick={() => handleDeleteButtonClick(data.id)}><FaTrash /> Delete</button>
+                                            </td>
+                                        )}
+                                    </tr>
+                                ))}
+                            </tbody>
+                        </table>
                         <div className="pagination-container no-print">
                             <button onClick={handlePrevPage} disabled={currentPage === 1}><FaAngleLeft /></button>
                             <span>Page {currentPage} of {totalPages}</span>
