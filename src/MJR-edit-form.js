@@ -120,6 +120,7 @@ const MJREditForm = ({ showForm, onClose, id }) => {
                             readOnly
                         />
                     </div>
+                    
                     <div className="form-group">
                         <label>Noted by(Department Supervisor/Manager):</label>
                         <input

@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useCallback } from 'react';
 import { FaCheck, FaThumbsUp, FaThumbsDown } from 'react-icons/fa6';
 import firebase from 'firebase/compat/app';
 import 'firebase/compat/firestore';
@@ -11,29 +11,32 @@ const Dashboard = ({ user }) => {
     const [address, setAddress] = useState('');
     const [loading, setLoading] = useState(true);
     const [position, setPosition] = useState('');
-    const [mjrNotificationSent, setMjrNotificationSent] = useState(false); // Added state for MJR notification
-    const [strNotificationSent, setStrNotificationSent] = useState(false); // Added state for STR notification
+    const [userInfo, setUserInfo] = useState(null);
+    const [mjrNotificationSent, setMjrNotificationSent] = useState(false);
+    const [strNotificationSent, setStrNotificationSent] = useState(false);
+
+    const fetchUserData = useCallback((userId) => {
+        const userDocRef = firebase.firestore().collection('users').doc(userId);
+        const unsubscribe = userDocRef.onSnapshot((doc) => {
+            if (doc.exists) {
+                const userData = doc.data();
+                setUserInfo(userData);
+                setAddress(userData.address || '');
+                setPosition(userData.position || '');
+            } else {
+                console.log('No such document!');
+            }
+        }, (error) => {
+            console.error('Error fetching user data:', error);
+        });
+        return () => unsubscribe();
+    }, []);
 
     useEffect(() => {
         if (user) {
-            const userDocRef = firebase.firestore().collection('users').doc(user.uid);
-            const unsubscribeUser = userDocRef.onSnapshot((doc) => {
-                if (doc.exists) {
-                    const userData = doc.data();
-                    setAddress(userData.address || '');
-                    setPosition(userData.position || '');
-                } else {
-                    console.log('No such document!');
-                }
-            }, (error) => {
-                console.error('Error fetching user data:', error);
-            });
-
-            return () => unsubscribeUser();
-        } else {
-            console.log('No user is logged in.');
+            return fetchUserData(user.uid);
         }
-    }, [user]);
+    }, [user, fetchUserData]);
 
     useEffect(() => {
         const fetchData = () => {
@@ -48,7 +51,7 @@ const Dashboard = ({ user }) => {
                 setLoading(false);
                 if (data.length > 0 && !mjrNotificationSent) {
                     sendPushNotification('MJR Forms Fetched', `Fetched ${data.length} MJR forms`);
-                    setMjrNotificationSent(true); // Set flag to true to ensure notification is sent only once
+                    setMjrNotificationSent(true);
                 }
             }, (error) => {
                 console.error('Error fetching data:', error);
@@ -64,7 +67,7 @@ const Dashboard = ({ user }) => {
                 setLoading(false);
                 if (data.length > 0 && !strNotificationSent) {
                     sendPushNotification('STR Forms Fetched', `Fetched ${data.length} STR forms`);
-                    setStrNotificationSent(true); // Set flag to true to ensure notification is sent only once
+                    setStrNotificationSent(true);
                 }
             }, (error) => {
                 console.error('Error fetching data:', error);
@@ -78,7 +81,7 @@ const Dashboard = ({ user }) => {
         };
 
         fetchData();
-    }, [address, mjrNotificationSent, strNotificationSent]); // Ensure useEffect is dependent on notification flags
+    }, [address, mjrNotificationSent, strNotificationSent]);
 
     const sendPushNotification = (title, body) => {
         navigator.serviceWorker.ready.then(registration => {
@@ -89,12 +92,27 @@ const Dashboard = ({ user }) => {
         });
     };
 
+    const formatDisplayName = (displayName) => {
+        if (!displayName) return '';
+        const names = displayName.split(' ');
+        if (names.length === 1) return names[0];
+        return `${names[0]} ${names[1].charAt(0)}.`;
+    };
+
+    const getUserDisplayName = () => {
+        if (user.providerData[0].providerId === 'google.com') {
+            return formatDisplayName(user.displayName);
+        } else {
+            return formatDisplayName(userInfo ? userInfo.name : '');
+        }
+    };
+
     const handleAcceptButtonClick = async (id) => {
         try {
             const db = firebase.firestore();
             await db.collection('mjrForms').doc(id).update({
                 accepted: true,
-                acceptedBy: user.displayName // Use user.displayName directly
+                acceptedBy: getUserDisplayName()
             });
             console.log('Document successfully updated!');
         } catch (error) {
