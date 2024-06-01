@@ -80,6 +80,9 @@ const SideNav = ({ user }) => {
         if (option.name === 'MIS Form 10') {
             return allowedPositions.includes(position);
         }
+        if (option.name === 'PSWD Manager') {
+            return allowedPositions.includes(position);
+        }
         if (option.name === 'STR') {
             return allowedStrPositions.includes(position);
         }
