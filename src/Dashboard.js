@@ -1,5 +1,5 @@
 import React, { useState, useEffect, useCallback } from 'react';
-import { FaCheck, FaThumbsUp, FaThumbsDown } from 'react-icons/fa6';
+import { FaCheck, FaThumbsUp, FaThumbsDown } from 'react-icons/fa';
 import firebase from 'firebase/compat/app';
 import 'firebase/compat/firestore';
 import 'firebase/compat/auth';
