@@ -39,48 +39,47 @@ const Dashboard = ({ user }) => {
     }, [user, fetchUserData]);
 
     useEffect(() => {
-        const fetchData = () => {
-            const db = firebase.firestore();
-            const mjrDataRef = db.collection('mjrForms')
-                .where('accepted', '==', false)
-                .where('address', '==', address.toUpperCase());
-            const unsubscribeMjrData = mjrDataRef.onSnapshot((snapshot) => {
-                const data = snapshot.docs.map(doc => ({ id: doc.id, ...doc.data() }));
-                data.sort((a, b) => a.mjrNo - b.mjrNo);
-                setAcceptedData(data);
-                setLoading(false);
-                if (data.length > 0 && !mjrNotificationSent) {
-                    sendPushNotification('MJR Forms Fetched', `Fetched ${data.length} MJR forms`);
-                    setMjrNotificationSent(true);
-                }
-            }, (error) => {
-                console.error('Error fetching data:', error);
-                setLoading(false);
-            });
+        if (!address) return;
 
-            const strDataRef = db.collection('strForms')
-                .where('status', '==', 'Pending')
-                .where('address', '==', address.toUpperCase());
-            const unsubscribeStrData = strDataRef.onSnapshot((snapshot) => {
-                const data = snapshot.docs.map(doc => ({ id: doc.id, ...doc.data() }));
-                setStrForms(data);
-                setLoading(false);
-                if (data.length > 0 && !strNotificationSent) {
-                    sendPushNotification('STR Forms Fetched', `Fetched ${data.length} STR forms`);
-                    setStrNotificationSent(true);
-                }
-            }, (error) => {
-                console.error('Error fetching data:', error);
-                setLoading(false);
-            });
+        const db = firebase.firestore();
+        const mjrDataRef = db.collection('mjrForms')
+            .where('accepted', '==', false)
+            .where('address', '==', address.toUpperCase());
+        const strDataRef = db.collection('strForms')
+            .where('status', '==', 'Pending')
+            .where('address', '==', address.toUpperCase());
 
-            return () => {
-                unsubscribeMjrData();
-                unsubscribeStrData();
-            };
+        const unsubscribeMjrData = mjrDataRef.onSnapshot((snapshot) => {
+            const data = snapshot.docs.map(doc => ({ id: doc.id, ...doc.data() }));
+            data.sort((a, b) => a.mjrNo - b.mjrNo);
+            setAcceptedData(data);
+            setLoading(false);
+            if (data.length > 0 && !mjrNotificationSent) {
+                sendPushNotification('MJR Forms Fetched', `Fetched ${data.length} MJR forms`);
+                setMjrNotificationSent(true);
+            }
+        }, (error) => {
+            console.error('Error fetching data:', error);
+            setLoading(false);
+        });
+
+        const unsubscribeStrData = strDataRef.onSnapshot((snapshot) => {
+            const data = snapshot.docs.map(doc => ({ id: doc.id, ...doc.data() }));
+            setStrForms(data);
+            setLoading(false);
+            if (data.length > 0 && !strNotificationSent) {
+                sendPushNotification('STR Forms Fetched', `Fetched ${data.length} STR forms`);
+                setStrNotificationSent(true);
+            }
+        }, (error) => {
+            console.error('Error fetching data:', error);
+            setLoading(false);
+        });
+
+        return () => {
+            unsubscribeMjrData();
+            unsubscribeStrData();
         };
-
-        fetchData();
     }, [address, mjrNotificationSent, strNotificationSent]);
 
     const sendPushNotification = (title, body) => {
