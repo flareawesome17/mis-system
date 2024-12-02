@@ -10,3 +10,6 @@ self.addEventListener('push', event => {
         icon: 'icon.png' // Path to an icon image
     });
 });
+
+
+
